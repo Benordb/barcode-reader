@@ -3,9 +3,9 @@
 import { BrowserMultiFormatReader } from '@zxing/browser';
 import { useEffect, useRef, useState } from 'react';
 export default function Home() {
-  const videoRef = useRef(null); // Камераас видеог харуулах
+  const videoRef = useRef<HTMLVideoElement | null>(null); // Камераас видеог харуулах
   const [barcodeResult, setBarcodeResult] = useState<string>(''); // Уншсан бар код хадгалах
-  const codeReader = useRef(null); // ZXing уншигч
+  const codeReader = useRef<BrowserMultiFormatReader | null>(null); // ZXing уншигч
 
   useEffect(() => {
     // ZXing код уншигч эхлүүлэх
@@ -14,7 +14,7 @@ export default function Home() {
     // Камераас видео эх сурвалж авах
     if (videoRef.current) {
       codeReader.current
-        .decodeFromVideoDevice(null, videoRef.current, (result, err) => {
+        .decodeFromVideoDevice(undefined, videoRef.current, (result, err) => {
           if (result) {
             console.log(result)
             setBarcodeResult(result.getText()); // Уншсан кодыг хадгална
@@ -26,12 +26,12 @@ export default function Home() {
     }
 
 
-    return () => {
-      // Камераас урсгалыг унтраах
-      if (codeReader.current) {
-        codeReader.current.reset();
-      }
-    };
+    // return () => {
+    //   // Камераас урсгалыг унтраах
+    //   if (codeReader.current) {
+    //     codeReader.current.reset();
+    //   }
+    // };
   }, []);
 
   return (
